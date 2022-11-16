@@ -1,0 +1,22 @@
+Person A pays dinner for whole group
+Person B pays movie tickets
+Person C pays lunch for everyone, but each of
+them eats something different
+
+Functional req.
+ADD or REMOVE people
+END of the TRIP -> GLOBAL BILL
+WHO PAYS WHO and how MUCH
+EACH person can INPUT his/her TICKET
+-> need to fill themself as person who paid and how much
+TICKETS?
+
+NON FUNCTIONAL
+single database for persons
+single database for tockets
+design patterns
+UML diagrams
+
+TEST
+unit test for 1 class
+1 integration test
