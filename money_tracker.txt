@@ -1,3 +1,4 @@
+VOORBEELD
 Person A pays dinner for whole group
 Person B pays movie tickets
 Person C pays lunch for everyone, but each of
