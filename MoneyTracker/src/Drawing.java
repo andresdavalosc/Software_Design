@@ -1,33 +1,40 @@
 
 import java.awt.*;
+import javax.naming.Name;
 import javax.swing.*;
-import javax.swing.Box;
+import java.awt.*;
 import javax.swing.JScrollPane;
+import javax.swing.border.TitledBorder;
+import java.util.Observable;
+import java.util.Observer;
+public class Drawing extends JFrame implements Observer {
 
-public class Drawing extends Canvas {
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Ticket");
-        JButton button1 = new JButton("ADD");
-        JButton button2 = new JButton("REMOVE");
-/*        JButton button3 = new JButton("SPLIT");
-        JButton button4 = new JButton("EVENLY");*/
-        JButton button5 = new JButton("CONFIRM");
-        button1.setBounds(120,100, 55, 15);
-        button2.setBounds(165,100, 80, 15);
-        button5.setBounds(150,320, 80, 15);
-        button1.setFont(new Font("Arial", Font.PLAIN, 10));
-        button2.setFont(new Font("Arial", Font.PLAIN, 10));
-        button5.setFont(new Font("Arial", Font.PLAIN, 10));
+    DrawPanel extra;
+    JTextField Name;
 
-        frame.add(button1);
-        frame.add(button2);
-
-        frame.add(button5);
-
-        frame.setSize(400, 400);
-        frame.setLayout(null);
-        frame.setVisible(true);
+    public Drawing()
+    {
+        //super("money");
     }
 
+    public void initialize() {
+        setSize(480, 350);
+        //this.setLocation(1920,0);
+        setTitle("MoneyTracker");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
+
+        extra = new DrawPanel();
+
+        this.add(extra);
+        this.setVisible(true);
+    }
+
+    @Override
+    public void update(Observable observable, Object o)
+    {
+
+    }
 
 }
