@@ -246,9 +246,9 @@ public class DrawPanel extends JPanel {
                         user=Hash_Users.get(i);
                         userIsFound = true;
                     }
-                    for (int j = 0; j <= paidFor_list.length - 1; j++) // Voor alle users in de String
+                    for (int j = 0; j <= paidFor_list.length - 1; j++)
                     {
-                        if (paidFor_list[j].equals(Hash_Users.get(i).getName())) { // als de naam van een user in de hashmap & database overeenkomt met de ingetypte naam in de gui.
+                        if (paidFor_list[j].equals(Hash_Users.get(i).getName())) {
                             paidFor_ = Hash_Users.get(i);
                             split.add(paidFor_);
                             paidForIsFound = true;
@@ -268,7 +268,7 @@ public class DrawPanel extends JPanel {
                     IFactory factory = Factory.IFactory();
                     Price_ticket = Double.parseDouble((Price.getText()));
                     Type_ticket = TicketType.getText();
-                    this.ticket = factory.getTicket(Price_ticket,user,Type_ticket,Even.isSelected(),List_of_Users);
+                    this.ticket = factory.getTicket(Price_ticket,user,Type_ticket,Even.isSelected(),split);
                     controller.TicketAdd(ticket);
                     userIsFound = false;
                 }else if(paidForIsFound && userIsFound && Odd.isSelected()){

@@ -21,7 +21,9 @@ public class Calculate_observer implements Observer {
             }
         }else{
             for (User i : ticket.getPaidFor()) {
-                System.out.println(i.getName() + " needs to pay in total " + abs(i.getamountToPay()) + "€ to " + PaidBy.getName());
+                if(!(i.getName().equals(PaidBy.getName()))) {
+                    System.out.println(i.getName() + " needs to pay in total " + abs(i.getamountToPay()) + "€ to " + PaidBy.getName());
+                }
             }
         }
 

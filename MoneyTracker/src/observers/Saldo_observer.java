@@ -35,30 +35,35 @@ public class Saldo_observer implements Observer {
 
             int numUsers = PaidForList.size() + 1;
             double totalPercentage = 100.0;
-
             double currentPercentage = 5.0;
             double amountToPay = 0;
+            double Sum_Percentage = 5.0;
 
             amountToPay = (Saldo * currentPercentage) / 100.0;
             PaidBy.setSaldo(PaidBy.getSaldo() - amountToPay);
             PaidBy.setamountToPay(PaidBy.getamountToPay() - amountToPay);
             currentPercentage += 10.0;
+            Sum_Percentage += currentPercentage;
             System.out.println(PaidBy.getName() + " paid " + String.format("%.2f", amountToPay) + "€, Current Saldo: " + String.format("%.2f", PaidBy.getSaldo()) + "€");
 
             for (int i = 0; i < PaidForList.size(); i++) {
                 User user = PaidForList.get(i);
-                if (i == PaidForList.size() - 1) {
-                    amountToPay = (Saldo * (totalPercentage-(currentPercentage-10.0))) / 100.0;
-                    user.setamountToPay(user.getamountToPay() - amountToPay);
+                if(!(user.getName().equals(PaidBy.getName()))){
 
-                } else {
-                    amountToPay = (Saldo * currentPercentage) / 100.0;
-                    user.setamountToPay(user.getamountToPay() - amountToPay);
-                    currentPercentage += 10.0;
+                    if (i == PaidForList.size() - 1) {
+                        amountToPay = (Saldo * (totalPercentage-(Sum_Percentage - currentPercentage))) / 100.0;
+                        user.setamountToPay(user.getamountToPay() - amountToPay);
 
+                    } else {
+                        amountToPay = (Saldo * currentPercentage) / 100.0;
+                        user.setamountToPay(user.getamountToPay() - amountToPay);
+                        currentPercentage += 10.0;
+                        Sum_Percentage += currentPercentage;
+                    }
+                    user.setSaldo(user.getSaldo() - amountToPay);
+                    System.out.println(user.getName() + " paid " + String.format("%.2f", amountToPay) + "€, Current Saldo: " + String.format("%.2f", user.getSaldo()) + "€");
                 }
-                user.setSaldo(user.getSaldo() - amountToPay);
-                System.out.println(user.getName() + " paid " + String.format("%.2f", amountToPay) + "€, Current Saldo: " + String.format("%.2f", user.getSaldo()) + "€");
+
             }
         }
     }
