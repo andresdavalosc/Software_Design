@@ -2,11 +2,12 @@ package user;
 
 public class User {
     private String name;
-    private double balance;
+    private double Saldo;
+    private double Pay;
 
-    public User(String name, double balance) {
+    public User(String name, double Saldo) {
         this.name = name;
-        this.balance = balance;
+        this.Saldo = Saldo;
 
     }
 
@@ -16,10 +17,18 @@ public class User {
 
 
     public double getSaldo() {
-        return balance;
+        return Saldo;
     }
 
-    public void setSaldo(double balance) {
-        this.balance = balance;
+    public void setSaldo(double Saldo) {
+        this.Saldo = Saldo;
+    }
+
+    public double getamountToPay(){
+        return Pay;
+    }
+
+    public void setamountToPay(double pay){
+        this.Pay = pay;
     }
 }

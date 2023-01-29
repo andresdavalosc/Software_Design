@@ -1,9 +1,6 @@
 package view.panels;
 
-import controller.Controller;
 import controller.RegistrationController;
-import database.TicketDB;
-import database.UserDB;
 import factory.Factory;
 import factory.IFactory;
 import ticket.Ticket;
@@ -28,8 +25,6 @@ public class DrawPanel extends JPanel {
     JLabel UserCount;
 
     JLabel TicketCount;
-    JLabel label;
-    JTextField txt;
     JTextField  TicketType;
     JTextField Paid_by;
     JTextField Price;
@@ -58,8 +53,6 @@ public class DrawPanel extends JPanel {
     boolean userIsFound= false;
     boolean Paid_for_userIsFound = false;
     int ticketCount=0;
-    boolean RepeatedTicket = false;
-    JMenu menu;
     String PaidFor;
     String[] paidFor_list;
     ArrayList<User> split = new ArrayList<>();
@@ -174,7 +167,6 @@ public class DrawPanel extends JPanel {
         UserRemoved_Listener();
         Confirm_Listener();
 
-            //ADD Panel3 TO MAIN
 
         //ADD MAINPANEL TO JPANEL
         this.add(mainPanel);
@@ -185,10 +177,10 @@ public class DrawPanel extends JPanel {
         this.addUser.addActionListener(listener ->
         {
             Name = A_Name.getText();
-            for (int i : Hash_Users.keySet()) {
-                if (Name.equals(Hash_Users.get(i).getName())){
+            for (User list_of_user : List_of_Users) {
+                if (Name.equals(list_of_user.getName())) {
                     JOptionPane.showMessageDialog(null, "this name already exist. please give me the name and surname in this case");
-                    duplicated_name=true;
+                    duplicated_name = true;
                     break;
                 }
             }
@@ -197,12 +189,13 @@ public class DrawPanel extends JPanel {
 
             } else if(!duplicated_name){
                 Count++;
+                A_Name.setText("");
                 UserCount.setText("#Users : " + Count);
                 IFactory factory = Factory.IFactory();
-                this.user = factory.getUser(Name, 0);
+                this.user = factory.getUser(Name, 100);
                 Hash_Users.put(Count, user); // Hashmap van users
                 List_of_Users.add(user);
-                controller.addUser(user);
+                controller.UserAdd(user);
             }
             duplicated_name=false;
         });
@@ -213,14 +206,19 @@ public class DrawPanel extends JPanel {
         {
             Name = R_Name.getText();
             for (int i : Hash_Users.keySet()) {
-                if (Name.equals(Hash_Users.get(i).getName())) { // als de naam van een user in de hashmap & database overeenkomt met de ingetypte naam in de gui.
+                if (Name.equals(Hash_Users.get(i).getName())) {
                     if(Count>=1) {
                         Count--;
                     }else{
                         Count=0;
                     }
-                    controller.removeUser(user);
-                    Hash_Users.remove(i);
+                    R_Name.setText("");
+                    IFactory factory = Factory.IFactory();
+                    this.user = factory.getUser(Name, 0);
+                    controller.UserRemove(user);
+                    Hash_Users.remove(i,user);
+                    System.out.println(i);
+                    List_of_Users.remove(i-1);
                     UserCount.setText("#Users : " + Count);
                     removed = true;
                 }
@@ -239,57 +237,50 @@ public class DrawPanel extends JPanel {
     public void Confirm_Listener() {
         this.Confirm.addActionListener(listener ->
         {
+                PaidFor = Paid_For.getText();
+                paidFor_list = PaidFor.split(",");
+                paidForIsFound = false;
+                split.clear();
                 for (int i : Hash_Users.keySet()) {
                     if(Paid_by.getText().equals(Hash_Users.get(i).getName())){
+                        user=Hash_Users.get(i);
                         userIsFound = true;
                     }
-                    if (Paid_For.getText().equals(Hash_Users.get(i).getName())) {
-                        Paid_for_userIsFound = true;
+                    for (int j = 0; j <= paidFor_list.length - 1; j++) // Voor alle users in de String
+                    {
+                        if (paidFor_list[j].equals(Hash_Users.get(i).getName())) { // als de naam van een user in de hashmap & database overeenkomt met de ingetypte naam in de gui.
+                            paidFor_ = Hash_Users.get(i);
+                            split.add(paidFor_);
+                            paidForIsFound = true;
+                        }
                     }
                 }
+
                 if(TicketType.getText().isEmpty() || Paid_by.getText().isEmpty() || TicketType.getText().isEmpty() || Paid_For.getText().isEmpty() || Price.getText().isEmpty()){
                     JOptionPane.showMessageDialog(null, "not everything was filled in!");
                 }else if(Even.isSelected() && Odd.isSelected()){
                     JOptionPane.showMessageDialog(null, "both boxes cant be selected");
                 }else if (!Even.isSelected() && !Odd.isSelected()) {
                     JOptionPane.showMessageDialog(null, "select a box");
-                } else if(Paid_for_userIsFound && userIsFound && Even.isSelected()){
+                } else if(paidForIsFound && userIsFound && Even.isSelected()){
                     ticketCount++;
                     TicketCount.setText("#Tickets: " + ticketCount);
                     IFactory factory = Factory.IFactory();
                     Price_ticket = Double.parseDouble((Price.getText()));
                     Type_ticket = TicketType.getText();
                     this.ticket = factory.getTicket(Price_ticket,user,Type_ticket,Even.isSelected(),List_of_Users);
-                    controller.addTicket(ticket);
+                    controller.TicketAdd(ticket);
                     userIsFound = false;
-                }else{
-                    PaidFor = Paid_For_Label.getText();
-                    paidFor_list = PaidFor.split(",");
-                    split.clear();
-                    paidForIsFound = false;
-                    for (int i : Hash_Users.keySet()) {
-                        for (int j = 0; j <= paidFor_list.length - 1; j++) // Voor alle users in de String
-                        {
-                            if (paidFor_list[j].equals(Hash_Users.get(i).getName())) { // als de naam van een user in de hashmap & database overeenkomt met de ingetypte naam in de gui.
-                                paidFor_ = Hash_Users.get(i);
-                                split.add(paidFor_);
-                                paidForIsFound = true;
-                            }
+                }else if(paidForIsFound && userIsFound && Odd.isSelected()){
+                     ticketCount++;
+                     TicketCount.setText("#Tickets: " + ticketCount);
+                     IFactory factory = Factory.IFactory();
+                     Type_ticket = TicketType.getText();
+                    Price_ticket = Double.parseDouble((Price.getText()));
+                    this.ticket = factory.getTicket(Price_ticket,user,Type_ticket,Even.isSelected(),split);
+                     controller.TicketAdd(ticket);
+                     Paid_for_userIsFound= false;
 
-                        }
-                    }
-                    if (split.size() == 0)
-                        paidForIsFound = false;
-
-                    if(Paid_for_userIsFound && userIsFound && Odd.isSelected()){
-                    ticketCount++;
-                    TicketCount.setText("#Tickets: " + ticketCount);
-                    IFactory factory = Factory.IFactory();
-                    Type_ticket = TicketType.getText();
-                    this.ticket = factory.getTicket(Price_ticket,user,Type_ticket,Even.isSelected(),List_of_Users);
-                    controller.addTicket(ticket);
-                    Paid_for_userIsFound= false;
-                    }
                 }
 
         });

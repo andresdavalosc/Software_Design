@@ -16,11 +16,11 @@ public class TicketDB extends Database_Tickets {
         this.db = new HashMap<>();
     }
     public static TicketDB getInstance(){
-
         if(Instance == null)
             Instance= new TicketDB();
         return Instance;
     }
+
     @Override
     public void addEntry_Ticket(Ticket t, RegisterEntry re) {
         this.db.put(t, re);
@@ -30,5 +30,6 @@ public class TicketDB extends Database_Tickets {
 
     @Override
     public RegisterEntry getEntry_Ticket(Ticket t) {
-        return this.db.getOrDefault(t, new RegisterEntryNull());    }
+        return this.db.getOrDefault(t, new RegisterEntryNull());
+    }
 }

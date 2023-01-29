@@ -14,7 +14,6 @@ public class ViewFrame extends JFrame implements Observer {
     RegistrationController controller;
 
     DrawPanel extra;
-    JTextField Name;
     ListPanel panel;
 
     public ViewFrame(RegistrationController controller)

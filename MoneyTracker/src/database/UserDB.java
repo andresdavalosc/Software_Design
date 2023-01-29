@@ -16,7 +16,6 @@ public class UserDB extends Database_Users {
         this.db = new HashMap<>();
     }
     public static UserDB getInstance(){
-
         if(Instance == null)
             Instance= new UserDB();
         return Instance;
@@ -30,5 +29,6 @@ public class UserDB extends Database_Users {
 
     @Override
     public RegisterEntry getEntry_user(User u) {
-        return this.db.getOrDefault(u, new RegisterEntryNull());    }
+        return this.db.getOrDefault(u, new RegisterEntryNull());
+    }
 }

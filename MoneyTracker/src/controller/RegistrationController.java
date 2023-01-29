@@ -15,21 +15,20 @@ public class RegistrationController implements Controller{
     }
 
     @Override
-    public void addTicket(Ticket t) {
-        RegisterEntry entry = new RegisterEntry(true);
-        db_t.addEntry_Ticket(t, entry);
-    }
-
-    @Override
-    public void addUser(User u) {
+    public void UserAdd(User u) {
         RegisterEntry entry = new RegisterEntry(true);
         db_u.addEntry_user(u,entry);
     }
 
     @Override
-    public void removeUser(User u) {
+    public void UserRemove(User u) {
         RegisterEntry entry = new RegisterEntry(false);
         db_u.addEntry_user(u,entry);
 
+    }
+    @Override
+    public void TicketAdd(Ticket t) {
+        RegisterEntry entry = new RegisterEntry(true);
+        db_t.addEntry_Ticket(t, entry);
     }
 }

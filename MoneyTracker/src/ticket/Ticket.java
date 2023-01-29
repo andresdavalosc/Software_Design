@@ -9,10 +9,10 @@ public class Ticket {
     private final User paidBy;
     private final String event;
     private final boolean splitEven;
-    private final ArrayList paidFor;
+    private final ArrayList<User> paidFor;
 
 
-    public Ticket(double amount, User paidBy, String event, boolean splitEven, ArrayList paidFor) {
+    public Ticket(double amount, User paidBy, String event, boolean splitEven, ArrayList<User> paidFor) {
         this.amount = amount;
         this.paidBy = paidBy;
         this.event = event;
