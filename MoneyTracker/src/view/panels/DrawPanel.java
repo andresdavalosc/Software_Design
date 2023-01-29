@@ -192,8 +192,8 @@ public class DrawPanel extends JPanel {
                 A_Name.setText("");
                 UserCount.setText("#Users : " + Count);
                 IFactory factory = Factory.IFactory();
-                this.user = factory.getUser(Name, 100);
-                Hash_Users.put(Count, user); // Hashmap van users
+                this.user = factory.getUser(Name, 0);
+                Hash_Users.put(Count, user);
                 List_of_Users.add(user);
                 controller.UserAdd(user);
             }
