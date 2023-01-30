@@ -58,6 +58,7 @@ public class DrawPanel extends JPanel {
     ArrayList<User> split = new ArrayList<>();
     User paidFor_;
     boolean paidForIsFound = false;
+    boolean Paidfor_is_paidby = true;
 
     public DrawPanel(RegistrationController controller,ListPanel panel){
         this.controller = controller;
@@ -237,6 +238,7 @@ public class DrawPanel extends JPanel {
     public void Confirm_Listener() {
         this.Confirm.addActionListener(listener ->
         {
+                Paidfor_is_paidby = true;
                 PaidFor = Paid_For.getText();
                 paidFor_list = PaidFor.split(",");
                 paidForIsFound = false;
@@ -248,6 +250,10 @@ public class DrawPanel extends JPanel {
                     }
                     for (int j = 0; j <= paidFor_list.length - 1; j++)
                     {
+                        if(paidFor_list[j].equals(user.getName())){
+                            JOptionPane.showMessageDialog(null, "paid for cant have the same name as paid by");
+                            Paidfor_is_paidby = false;
+                        }
                         if (paidFor_list[j].equals(Hash_Users.get(i).getName())) {
                             paidFor_ = Hash_Users.get(i);
                             split.add(paidFor_);
@@ -262,16 +268,16 @@ public class DrawPanel extends JPanel {
                     JOptionPane.showMessageDialog(null, "both boxes cant be selected");
                 }else if (!Even.isSelected() && !Odd.isSelected()) {
                     JOptionPane.showMessageDialog(null, "select a box");
-                } else if(paidForIsFound && userIsFound && Even.isSelected()){
+                } else if(Paidfor_is_paidby && paidForIsFound && userIsFound && Even.isSelected()){
                     ticketCount++;
                     TicketCount.setText("#Tickets: " + ticketCount);
                     IFactory factory = Factory.IFactory();
                     Price_ticket = Double.parseDouble((Price.getText()));
                     Type_ticket = TicketType.getText();
-                    this.ticket = factory.getTicket(Price_ticket,user,Type_ticket,Even.isSelected(),split);
+                    this.ticket = factory.getTicket(Price_ticket,user,Type_ticket,Even.isSelected(),List_of_Users);
                     controller.TicketAdd(ticket);
                     userIsFound = false;
-                }else if(paidForIsFound && userIsFound && Odd.isSelected()){
+                }else if(Paidfor_is_paidby && paidForIsFound && userIsFound && Odd.isSelected()){
                      ticketCount++;
                      TicketCount.setText("#Tickets: " + ticketCount);
                      IFactory factory = Factory.IFactory();
